@@ -76,7 +76,18 @@ class SoapClass
 
     private function nonCachedResponse()
     {
-        return file_get_contents($this->wsdl);
+        if (!File::exists(storage_path('app') . $this->filePath)) {
+
+            File::makeDirectory( $this->filePath, $mode = 0755, true, true);
+        }
+        $prefix = $this->prefix ? $this->prefix . '-' : '';
+        $path =  $this->filePath . $prefix . $this->service . '.xml';
+            $file = file_get_contents($this->wsdl);
+            $prefix = $this->prefix ? $this->prefix . '-' : '';
+            $path = $this->filePath . $prefix . $this->service . '.xml';
+            File::put($path, $file);
+
+        return $path;
 
     }
 
