@@ -19,7 +19,7 @@ By Salah Elabbar
   | Header        | Value Sample                        | When to send it                                                              |
   |---------------|-------------------------------------|------------------------------------------------------------------------------|
   | Accept        | `application/json`                  | MUST be sent with every endpoint.                                            |
-  | token         | any hash token                      | if you have saved the sae token in .env                                      |
+  | token         | any hash token                      | if you have saved the same token in .env                                     |
  
  
  
