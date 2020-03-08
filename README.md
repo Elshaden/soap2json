@@ -34,7 +34,8 @@ By Salah Elabbar
   
   
   #### Usage:
-    Just send the request to 
+   Just send your request to:
+    
   ```
   http://yourdomain.com/send
   ```
@@ -75,6 +76,6 @@ SOAP_FILE_PATH=/soap/
 AUTHENTICATION=
 ```
 
-the AUTHENTICATION should = any thoken that you must send all headers.
+the AUTHENTICATION should = any thoken that you must send in all headers.
 
 
