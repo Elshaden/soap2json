@@ -21,9 +21,12 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+ $app->withFacades();
 
 // $app->withEloquent();
+
+
+$app->configure('soap2json');
 
 /*
 |--------------------------------------------------------------------------

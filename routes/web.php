@@ -14,3 +14,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+/**
+ * Routes for Soap Client
+ */
+$router->post('send', [
+    'as' => 'soap-send', 'uses' => 'SoapController@send'
+]);
+

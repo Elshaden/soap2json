@@ -1,0 +1,105 @@
+<?php
+
+
+namespace App\SoapClasses;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use SoapClient;
+use SoapFault;
+
+
+class SoapClass
+{
+    protected $prefix;
+
+    protected $filePath;
+
+    protected $cache;
+
+    protected $request;
+
+    protected $wsdl;
+
+    protected $service;
+
+    protected $parameters;
+    public function __construct(Request $request)
+    {
+        $this->prefix = $this->request->prefix ?? env('SOAP_FILE_PREFIX');
+
+        $this->filePath = storage_path('app') . env('SOAP_FILE_PATH');
+        $this->parameters = $request->except('wsdl','service','cache','prefix');
+        $this->request = $request;
+
+        $this->cache = $this->request->cache;
+        $this->wsdl = $this->request->wsdl;
+        $this->service = $this->request->service;
+
+    }
+
+
+    public function send()
+    {
+
+        $wsdlContenet =  $this->cache ? $this->cachedResponse() : $this->nonCachedResponse();
+        return $this->call($wsdlContenet);
+
+    }
+    public function call($wsdlContenet)
+    {
+
+        try {
+
+            $client = new SoapClient($wsdlContenet);
+            $results = $client->__call($this->service, [$this->parameters]);
+            return json_encode($results, true);
+
+        } catch (SoapFault $e) {
+            $error = ['status'=>['error'=>$e->getMessage(),
+                'message'=>'Connection To Source Failed',
+                'code'=>401]];
+            return $error;
+        }
+    }
+
+
+    private function cachedResponse()
+    {
+        // check if file exists
+        $prefix = $this->prefix ? $this->prefix.'-': '';
+        $WsdlFile = $this->filePath . '/' .$prefix. $this->service . '.xml';
+        return File::exists($WsdlFile) ? $WsdlFile : $this->cacheWsdl();
+
+
+    }
+
+    private function nonCachedResponse()
+    {
+        return file_get_contents($this->wsdl);
+
+    }
+
+
+    private function cacheWsdl()
+    {
+        if (!File::exists(storage_path('app') . $this->filePath)) {
+
+            File::makeDirectory( $this->filePath, $mode = 0755, true, true);
+        }
+        $prefix = $this->prefix ? $this->prefix . '-' : '';
+        $path =  $this->filePath . $prefix . $this->service . '.xml';
+        if (!File::exists($path)) {
+
+
+            $file = file_get_contents($this->wsdl);
+            $prefix = $this->prefix ? $this->prefix . '-' : '';
+            $path = $this->filePath . $prefix . $this->service . '.xml';
+            File::put($path, $file);
+        }
+        return $path;
+
+    }
+
+
+}
