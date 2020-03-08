@@ -33,7 +33,7 @@ By Salah Elabbar
   
   
   
-  ####Usage:
+  #### Usage:
     Just send the request to 
   ```
   http://yourdomain.com/send
