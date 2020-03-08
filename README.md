@@ -56,9 +56,9 @@ By Salah Elabbar
   | parameterKey| anything                            |          optional      | your soap required parameters                  | 
     
   
-   You need to replace parameterKey wth your soap request parameters.
+   You need to replace parameterKey with your soap request parameters.
    
-   ####Authenticated Requests
+   #### Authenticated Requests
    To make it simple I have added token in headers, if you want you can use it if not than just delete the line in SoapController
    
    ```
