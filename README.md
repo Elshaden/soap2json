@@ -6,6 +6,7 @@ By Salah Elabbar
 ### This Application converts and given SOAP request to Json Response
 
 #### By sending the url of the WSDL, this application coverts the WSDL schema into SOAP request
+#### send it and converts the response into json.
 
   ## **Usage Overview**
   
@@ -18,6 +19,7 @@ By Salah Elabbar
   | Header        | Value Sample                        | When to send it                                                              |
   |---------------|-------------------------------------|------------------------------------------------------------------------------|
   | Accept        | `application/json`                  | MUST be sent with every endpoint.                                            |
+  | token         | any hash token                      | if you have saved the sae token in .env                                      |
  
  
  
