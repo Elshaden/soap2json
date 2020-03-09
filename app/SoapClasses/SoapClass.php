@@ -61,7 +61,7 @@ class SoapClass
      */
     public function call($wsdlContenet)
     {
-             return   [$wsdlContenet,$this->parameters] ;
+             return   [$wsdlContenet,[$this->parameters]] ;
         try {
 
             $client = new SoapClient($wsdlContenet);
