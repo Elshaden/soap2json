@@ -60,21 +60,30 @@ class SoapClass
      * @return array|false|string
      */
     public function call($wsdlContenet)
-    {
-             return   [$wsdlContenet,[$this->parameters]] ;
-        try {
+    {       $stringRequest =  $this->parameters['string']??false;
+        unset($this->parameters['string']) ;
+            if($stringRequest){
+
+                $parameters = $this->parameters;
+
+            } else{
+
+                $parameters = [$this->parameters];
+            }
+
+       try {
 
             $client = new SoapClient($wsdlContenet);
-            $results = $client->__call($this->service, [$this->parameters]);
+            $results = $client->__call($this->service, $parameters);
 
-
+  //  return   [$results,$wsdlContenet,[$this->parameters]] ;
             return json_encode($results, true);
 
-      } catch (SoapFault $e) {
-            $error = ['status'=>['error'=>$e->getMessage(),
-                'message'=>'Connection To Source Failed',
-               'code'=>401]];
-           return $error;
+     } catch (SoapFault $e) {
+          $error = ['status'=>['error'=>$e->getMessage(),
+              'message'=>'Connection To Source Failed',
+            'code'=>401]];
+         return $error;
        }
     }
 
