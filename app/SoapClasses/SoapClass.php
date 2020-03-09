@@ -24,6 +24,11 @@ class SoapClass
     protected $service;
 
     protected $parameters;
+
+    /**
+     * SoapClass constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         $this->prefix = $this->request->prefix ?? env('SOAP_FILE_PREFIX');
@@ -39,6 +44,9 @@ class SoapClass
     }
 
 
+    /**
+     * @return array|false|string
+     */
     public function send()
     {
 
@@ -46,24 +54,34 @@ class SoapClass
         return $this->call($wsdlContenet);
 
     }
+
+    /**
+     * @param $wsdlContenet
+     * @return array|false|string
+     */
     public function call($wsdlContenet)
     {
-
+             return   [$wsdlContenet,$this->parameters] ;
         try {
 
             $client = new SoapClient($wsdlContenet);
             $results = $client->__call($this->service, [$this->parameters]);
+
+
             return json_encode($results, true);
 
-        } catch (SoapFault $e) {
+      } catch (SoapFault $e) {
             $error = ['status'=>['error'=>$e->getMessage(),
                 'message'=>'Connection To Source Failed',
-                'code'=>401]];
-            return $error;
-        }
+               'code'=>401]];
+           return $error;
+       }
     }
 
 
+    /**
+     * @return string
+     */
     private function cachedResponse()
     {
         // check if file exists
@@ -74,6 +92,9 @@ class SoapClass
 
     }
 
+    /**
+     * @return string
+     */
     private function nonCachedResponse()
     {
         if (!File::exists(storage_path('app') . $this->filePath)) {
@@ -92,6 +113,9 @@ class SoapClass
     }
 
 
+    /**
+     * @return string
+     */
     private function cacheWsdl()
     {
         if (!File::exists(storage_path('app') . $this->filePath)) {
