@@ -5,7 +5,7 @@ By Salah Elabbar
 
 ### This Application converts any given SOAP request to Json Response
 
-#### By sending the url of the WSDL, this application coverts the WSDL schema into SOAP request
+#### By sending  with POST method  the url of the WSDL, this application coverts the WSDL schema into SOAP request
 #### send it and converts the response into json.
 
   ## **Usage Overview**
@@ -35,7 +35,7 @@ By Salah Elabbar
   
   #### Usage:
    Just send your request to:
-    
+    in POST method
   ```
   http://yourdomain.com/send
   ```
