@@ -3,7 +3,7 @@
 By Salah Elabbar
 
 
-### This Application converts and given SOAP request to Json Response
+### This Application converts any given SOAP request to Json Response
 
 #### By sending the url of the WSDL, this application coverts the WSDL schema into SOAP request
 #### send it and converts the response into json.
